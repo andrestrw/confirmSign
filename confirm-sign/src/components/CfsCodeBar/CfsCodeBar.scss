@@ -1,0 +1,20 @@
+.cfs-code-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: #f5f5f5;
+  text-align: center;
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #4e6083;
+  border-bottom: 1px solid #4e6083;
+
+  &__label {
+    font-weight: 100;
+  }
+
+  &__value {
+    font-weight: 600;
+  }
+}
