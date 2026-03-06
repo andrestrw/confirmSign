@@ -1,6 +1,8 @@
 import { useThread } from "./hooks/useThread";
+import CfsCodeBar from "./components/CfsCodeBar/CfsCodeBar";
+import InfoBar from "./components/InfoBar/InfoBar";
+import HistoryTable from "./components/HistoryTable/HistoryTable";
 
-// These come from the .env file
 const TOKEN_1 = import.meta.env.VITE_THREAD_TOKEN_1;
 const TOKEN_2 = import.meta.env.VITE_THREAD_TOKEN_2;
 
@@ -13,9 +15,12 @@ function App() {
 
   return (
     <div>
-      <p>cfscode: {data.cfscode}</p>
-      <p>sender.user: {data.sender.user}</p>
-      <p>recipient.address: {data.recipient.address}</p>
+      <CfsCodeBar cfscode={data.cfscode} />
+      <InfoBar
+        senderUser={data.sender.user}
+        recipientAddress={data.recipient.address}
+      />
+      <HistoryTable history={data.history} />
     </div>
   );
 }

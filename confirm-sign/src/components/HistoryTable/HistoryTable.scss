@@ -1,0 +1,64 @@
+.history-table {
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #4e6083;
+  border: 1px solid #ddd;
+  background-color: #fff;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-bottom: 1px solid #eee;
+    gap: 12px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__pagination {
+    min-width: 50px;
+    font-weight: 600;
+    color: #4e6083;
+    white-space: nowrap;
+  }
+
+  &__arrows {
+    color: #4caf50;
+    font-weight: bold;
+  }
+
+  &__description {
+    flex: 2;
+    white-space: nowrap;
+  }
+
+  &__ip {
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  &__os {
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  &__nav {
+    min-width: 40px;
+    white-space: nowrap;
+  }
+
+  &__row--active {
+    color: #4caf50;
+    cursor: pointer;
+
+    .history-table__pagination,
+    .history-table__description,
+    .history-table__ip,
+    .history-table__os,
+    .history-table__nav {
+      color: #4caf50;
+    }
+  }
+}
