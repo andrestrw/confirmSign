@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { HistoryEntry } from "../../api/types";
 import "./HistoryTable.scss";
 
@@ -24,41 +25,62 @@ const getStatusLabel = (entry: HistoryEntry): string => {
   return `Ticket de ${entry.description}`;
 };
 
+const getMostRecentEntry = (history: HistoryEntry[]): HistoryEntry => {
+  return history.reduce((latest, entry) =>
+    entry.gmt > latest.gmt ? entry : latest,
+  );
+};
+
 const HistoryTable = ({ history }: HistoryTableProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const total = history.length;
+  const mostRecent = getMostRecentEntry(history);
+
+  const handleToggle = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   return (
     <div className="history-table">
-      {history.map((entry, index) => (
-        <div
-          key={entry.sid}
-          className={`history-table__row ${index === 0 ? "history-table__row--active" : ""}`}
-        >
-          <span className="history-table__pagination">
-            {index === 0 && (
-              <>
-                <span className="history-table__arrows">↕</span>{" "}
-              </>
-            )}
-            {index + 1}/{total}
-          </span>
+      {history.map((entry, index) => {
+        const isMostRecent = entry.sid === mostRecent.sid;
 
-          <span className="history-table__description">
-            <strong>{getStatusLabel(entry)}</strong> el{" "}
-            <strong>{formatDate(entry.date)}</strong> - {formatGmt(entry.gmt)}
-          </span>
+        const isVisible = isExpanded || isMostRecent;
 
-          <span className="history-table__ip">
-            IP: <strong>{entry.ip}</strong>
-          </span>
+        if (!isVisible) return null;
 
-          <span className="history-table__os">
-            SO: <strong>{entry.OS}</strong>
-          </span>
+        return (
+          <div
+            key={entry.sid}
+            className={`history-table__row ${isMostRecent ? "history-table__row--active" : ""}`}
+            onClick={isMostRecent ? handleToggle : undefined}
+          >
+            <span className="history-table__pagination">
+              {isMostRecent && (
+                <>
+                  <span className="history-table__arrows">↕</span>{" "}
+                </>
+              )}
+              {index + 1}/{total}
+            </span>
 
-          <span className="history-table__nav">Nav: {entry.browser}</span>
-        </div>
-      ))}
+            <span className="history-table__description">
+              <strong>{getStatusLabel(entry)}</strong> el{" "}
+              <strong>{formatDate(entry.date)}</strong> - {formatGmt(entry.gmt)}
+            </span>
+
+            <span className="history-table__ip">
+              IP: <strong>{entry.ip}</strong>
+            </span>
+
+            <span className="history-table__os">
+              SO: <strong>{entry.OS}</strong>
+            </span>
+
+            <span className="history-table__nav">Nav: {entry.browser}</span>
+          </div>
+        );
+      })}
     </div>
   );
 };

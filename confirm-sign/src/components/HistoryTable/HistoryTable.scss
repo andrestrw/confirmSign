@@ -51,6 +51,7 @@
 
   &__row--active {
     color: #4caf50;
+    cursor: pointer;
 
     .history-table__pagination,
     .history-table__description,
