@@ -19,4 +19,27 @@ export interface ThreadResponse {
     address: string;
   };
   history: HistoryEntry[];
+  agreement?: {
+    forms: AgreementForm[];
+  };
+}
+
+export interface AgreementForm {
+  fid: string;
+  title: string;
+  questions: FormQuestion[];
+}
+
+export interface FormQuestion {
+  qid: number;
+  label: string;
+  type: string;
+  options: QuestionOption[];
+}
+
+export interface QuestionOption {
+  oid: number;
+  label: string;
+  order: number;
+  default: boolean;
 }

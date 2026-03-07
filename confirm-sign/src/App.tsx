@@ -2,6 +2,8 @@ import { useThread } from "./hooks/useThread";
 import CfsCodeBar from "./components/CfsCodeBar/CfsCodeBar";
 import InfoBar from "./components/InfoBar/InfoBar";
 import HistoryTable from "./components/HistoryTable/HistoryTable";
+import ContentPanel from "./components/ContentPanel/ContentPanel";
+import AgreementForm from "./components/AgreementForm/AgreementForm";
 
 const TOKEN_1 = import.meta.env.VITE_THREAD_TOKEN_1;
 const TOKEN_2 = import.meta.env.VITE_THREAD_TOKEN_2;
@@ -20,7 +22,12 @@ function App() {
         senderUser={data.sender.user}
         recipientAddress={data.recipient.address}
       />
+
       <HistoryTable history={data.history} />
+
+      <ContentPanel content={data.content}>
+        {data.agreement && <AgreementForm forms={data.agreement.forms} />}
+      </ContentPanel>
     </div>
   );
 }
