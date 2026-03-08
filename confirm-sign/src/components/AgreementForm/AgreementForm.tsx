@@ -7,7 +7,8 @@ interface AgreementFormProps {
 }
 
 const getDefaultOid = (forms: AgreementFormType[]): number | null => {
-  const options = forms?.[0]?.questions?.[0]?.options;
+  const checkQuestion = forms?.[0]?.questions?.find((q) => q.type === "CHECK");
+  const options = checkQuestion?.options;
   return options?.find((opt) => opt.default)?.oid ?? null;
 };
 
@@ -17,39 +18,62 @@ const AgreementForm = ({ forms }: AgreementFormProps) => {
   );
 
   const form = forms?.[0];
-  const firstQuestion = form?.questions?.[0];
 
-  if (!form || !firstQuestion?.options) return null;
-
-  const sortedOptions = [...firstQuestion.options].sort(
-    (a, b) => a.order - b.order,
-  );
+  if (!form || !form.questions) return null;
 
   return (
     <div className="agreement-form">
       <h3 className="agreement-form__title">{form.title}</h3>
 
-      <div className="agreement-form__question">
-        <span className="agreement-form__label">
-          {firstQuestion.label || "Selecciona tu opción"}
-        </span>
+      {form.questions.map((question) => {
+        const isText = question.type === "TEXT";
 
-        <div className="agreement-form__options">
-          {sortedOptions.map((opt) => (
-            <label key={opt.oid} className="agreement-form__option">
-              <input
-                type="checkbox"
-                className="agreement-form__checkbox"
-                checked={selectedOid === opt.oid}
-                onChange={() =>
-                  setSelectedOid(selectedOid === opt.oid ? null : opt.oid)
-                }
-              />
-              <span className="agreement-form__option-label">{opt.label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+        return (
+          <div key={question.qid} className="agreement-form__question">
+            {(question.label || !isText) && (
+              <span className="agreement-form__label">
+                {question.label || "Selecciona tu opción"}
+              </span>
+            )}
+
+            <div className="agreement-form__options">
+              {isText ? (
+                <label className="agreement-form__option">
+                  <input
+                    type="text"
+                    className="agreement-form__input"
+                    minLength={question.options[0]?.input?.min}
+                    maxLength={question.options[0]?.input?.max}
+                  />
+                  <span className="agreement-form__option-label">
+                    {question.options[0]?.label}
+                  </span>
+                </label>
+              ) : (
+                [...question.options]
+                  .sort((a, b) => a.order - b.order)
+                  .map((opt) => (
+                    <label key={opt.oid} className="agreement-form__option">
+                      <input
+                        type="checkbox"
+                        className="agreement-form__checkbox"
+                        checked={selectedOid === opt.oid}
+                        onChange={() =>
+                          setSelectedOid(
+                            selectedOid === opt.oid ? null : opt.oid,
+                          )
+                        }
+                      />
+                      <span className="agreement-form__option-label">
+                        {opt.label}
+                      </span>
+                    </label>
+                  ))
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
