@@ -1,11 +1,18 @@
 import { useState } from "react";
-import type { AgreementForm as AgreementFormType } from "../../api/types";
+import type {
+  AgreementForm as AgreementFormType,
+  HistoryEntry,
+} from "../../api/types";
 import AgreementButton from "../AgreementButton/AgreementButton";
+import HistoryTable from "../HistoryTable/HistoryTable";
 import "./AgreementForm.scss";
 
 interface AgreementFormProps {
   forms: AgreementFormType[];
   acceptButtonText?: string;
+  onAccept?: () => void;
+  isAccepted?: boolean;
+  history?: HistoryEntry[];
 }
 
 const getDefaultOid = (forms: AgreementFormType[]): number | null => {
@@ -14,12 +21,19 @@ const getDefaultOid = (forms: AgreementFormType[]): number | null => {
   return options?.find((opt) => opt.default)?.oid ?? null;
 };
 
-const AgreementForm = ({ forms, acceptButtonText }: AgreementFormProps) => {
+const AgreementForm = ({
+  forms,
+  acceptButtonText,
+  onAccept,
+  isAccepted = false,
+  history = [],
+}: AgreementFormProps) => {
   const [selectedOid, setSelectedOid] = useState<number | null>(
     getDefaultOid(forms),
   );
 
   const form = forms?.[0];
+  const isFormAccepted = isAccepted || form?.answered;
 
   if (!form || !form.questions) return null;
 
@@ -43,9 +57,10 @@ const AgreementForm = ({ forms, acceptButtonText }: AgreementFormProps) => {
                 <label className="agreement-form__option">
                   <input
                     type="text"
-                    className="agreement-form__input"
+                    className={`agreement-form__input ${isFormAccepted ? "agreement-form__input--disabled" : ""}`}
                     minLength={question.options[0]?.input?.min}
                     maxLength={question.options[0]?.input?.max}
+                    disabled={isFormAccepted}
                   />
                   <span className="agreement-form__option-label">
                     {question.options[0]?.label}
@@ -60,11 +75,14 @@ const AgreementForm = ({ forms, acceptButtonText }: AgreementFormProps) => {
                         type="checkbox"
                         className="agreement-form__checkbox"
                         checked={selectedOid === opt.oid}
-                        onChange={() =>
-                          setSelectedOid(
-                            selectedOid === opt.oid ? null : opt.oid,
-                          )
-                        }
+                        disabled={isFormAccepted}
+                        onChange={() => {
+                          if (!isFormAccepted) {
+                            setSelectedOid(
+                              selectedOid === opt.oid ? null : opt.oid,
+                            );
+                          }
+                        }}
                       />
                       <span className="agreement-form__option-label">
                         {opt.label}
@@ -77,7 +95,19 @@ const AgreementForm = ({ forms, acceptButtonText }: AgreementFormProps) => {
         );
       })}
 
-      {acceptButtonText && <AgreementButton text={acceptButtonText} />}
+      {acceptButtonText && (
+        <AgreementButton
+          text={isFormAccepted ? "Hilo aceptado" : acceptButtonText}
+          onClick={onAccept}
+          disabled={isFormAccepted}
+        />
+      )}
+
+      {isFormAccepted && history.length > 0 && (
+        <div className="agreement-form__last-update">
+          <HistoryTable history={history} showOnlyLast={true} />
+        </div>
+      )}
     </div>
   );
 };
