@@ -1,9 +1,11 @@
 import { useState } from "react";
 import type { AgreementForm as AgreementFormType } from "../../api/types";
+import AgreementButton from "../AgreementButton/AgreementButton";
 import "./AgreementForm.scss";
 
 interface AgreementFormProps {
   forms: AgreementFormType[];
+  acceptButtonText?: string;
 }
 
 const getDefaultOid = (forms: AgreementFormType[]): number | null => {
@@ -12,7 +14,7 @@ const getDefaultOid = (forms: AgreementFormType[]): number | null => {
   return options?.find((opt) => opt.default)?.oid ?? null;
 };
 
-const AgreementForm = ({ forms }: AgreementFormProps) => {
+const AgreementForm = ({ forms, acceptButtonText }: AgreementFormProps) => {
   const [selectedOid, setSelectedOid] = useState<number | null>(
     getDefaultOid(forms),
   );
@@ -74,6 +76,8 @@ const AgreementForm = ({ forms }: AgreementFormProps) => {
           </div>
         );
       })}
+
+      {acceptButtonText && <AgreementButton text={acceptButtonText} />}
     </div>
   );
 };

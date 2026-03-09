@@ -26,7 +26,12 @@ function App() {
       <HistoryTable history={data.history} />
 
       <ContentPanel content={data.content}>
-        {data.agreement && <AgreementForm forms={data.agreement.forms} />}
+        {data.agreement && (
+          <AgreementForm
+            forms={data.agreement.forms}
+            acceptButtonText={data.agreement.accept_button_text}
+          />
+        )}
       </ContentPanel>
     </div>
   );

@@ -18,6 +18,7 @@ export interface ThreadResponse {
     description: string;
   }[];
   agreement?: {
+    accept_button_text: string;
     forms: {
       fid: string;
       title: string;
