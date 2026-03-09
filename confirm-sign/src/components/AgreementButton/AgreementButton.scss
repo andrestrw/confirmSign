@@ -22,4 +22,12 @@
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
+
+  &:disabled {
+    background-color: #8a2be2;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    filter: none;
+  }
 }
