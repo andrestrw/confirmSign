@@ -4,6 +4,7 @@ import "./HistoryTable.scss";
 
 interface HistoryTableProps {
   history: HistoryEntry[];
+  showOnlyLast?: boolean;
 }
 
 const formatDate = (dateStr: string): string => {
@@ -31,28 +32,34 @@ const getMostRecentEntry = (history: HistoryEntry[]): HistoryEntry => {
   );
 };
 
-const HistoryTable = ({ history }: HistoryTableProps) => {
+const HistoryTable = ({ history, showOnlyLast = false }: HistoryTableProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const total = history.length;
+
+  if (total === 0) return null;
   const mostRecent = getMostRecentEntry(history);
 
   const handleToggle = () => {
+    if (showOnlyLast) return;
     setIsExpanded((prev) => !prev);
   };
 
   return (
-    <div className="history-table">
+    <div
+      className={`history-table ${showOnlyLast ? "history-table--compact" : ""}`}
+    >
       {history.map((entry, index) => {
         const isMostRecent = entry.sid === mostRecent.sid;
-
-        const isVisible = isExpanded || isMostRecent;
+        const isVisible = showOnlyLast
+          ? isMostRecent
+          : isExpanded || isMostRecent;
 
         if (!isVisible) return null;
 
         return (
           <div
             key={entry.sid}
-            className={`history-table__row ${isMostRecent ? "history-table__row--active" : ""}`}
+            className={`history-table__row ${isMostRecent ? "history-table__row--active" : ""} ${showOnlyLast ? "history-table__row--no-border" : ""}`}
             onClick={isMostRecent ? handleToggle : undefined}
           >
             <span className="history-table__pagination">

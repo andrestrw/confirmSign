@@ -5,6 +5,11 @@
   border: 1px solid #ddd;
   background-color: #fff;
 
+  &--compact {
+    border: none;
+    background-color: transparent;
+  }
+
   &__row {
     display: flex;
     align-items: center;
@@ -52,13 +57,8 @@
   &__row--active {
     color: #4caf50;
     cursor: pointer;
-
-    .history-table__pagination,
-    .history-table__description,
-    .history-table__ip,
-    .history-table__os,
-    .history-table__nav {
-      color: #4caf50;
+    & .history-table__pagination {
+      color: inherit; // O #4caf50;
     }
   }
 }
