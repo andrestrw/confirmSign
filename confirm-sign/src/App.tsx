@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "@tanstack/react-router";
 import { useThread } from "./hooks/useThread";
 import { acceptThread } from "./api/threadService";
 import CfsCodeBar from "./components/CfsCodeBar/CfsCodeBar";
@@ -7,16 +8,17 @@ import HistoryTable from "./components/HistoryTable/HistoryTable";
 import ContentPanel from "./components/ContentPanel/ContentPanel";
 import AgreementForm from "./components/AgreementForm/AgreementForm";
 
-const TOKEN_1 = import.meta.env.VITE_THREAD_TOKEN_1;
-const TOKEN_2 = import.meta.env.VITE_THREAD_TOKEN_2;
-
 function App() {
-  const { data, loading, error, refetch } = useThread(TOKEN_1, TOKEN_2);
+  const { cskey, cfstoken } = useParams({ strict: false });
+  const { data, loading, error, refetch } = useThread(
+    cskey as string,
+    cfstoken as string,
+  );
   const [isAccepted, setIsAccepted] = useState(false);
 
   const handleAccept = async () => {
     try {
-      const result = await acceptThread(TOKEN_1, TOKEN_2);
+      const result = await acceptThread(cskey as string, cfstoken as string);
       console.log("Response from server:", result);
       if (result.success) {
         setIsAccepted(true);
