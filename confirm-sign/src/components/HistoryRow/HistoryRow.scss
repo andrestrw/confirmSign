@@ -1,25 +1,16 @@
-.history-table {
+.history-row {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-bottom: 1px solid #eee;
+  gap: 12px;
   font-size: 12px;
   font-family: sans-serif;
   color: #4e6083;
-  border: 1px solid #ddd;
   background-color: #fff;
 
-  &--compact {
-    border: none;
-    background-color: transparent;
-  }
-
-  &__row {
-    display: flex;
-    align-items: center;
-    padding: 4px 8px;
-    border-bottom: 1px solid #eee;
-    gap: 12px;
-
-    &:last-child {
-      border-bottom: none;
-    }
+  &:last-child {
+    border-bottom: none;
   }
 
   &__pagination {
@@ -54,11 +45,16 @@
     white-space: nowrap;
   }
 
-  &__row--active {
+  &--active {
     color: #4caf50;
     cursor: pointer;
-    & .history-table__pagination {
-      color: inherit; // O #4caf50;
+
+    .history-row__pagination,
+    .history-row__description,
+    .history-row__ip,
+    .history-row__os,
+    .history-row__nav {
+      color: #4caf50;
     }
   }
 }
