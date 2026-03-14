@@ -4,8 +4,9 @@ import type {
   HistoryEntry,
 } from "../../api/types";
 import AgreementButton from "../AgreementButton/AgreementButton";
-import HistoryTable from "../HistoryTable/HistoryTable";
+
 import "./AgreementForm.scss";
+import HistoryRow from "../HistoryRow/HistoryRow";
 
 interface AgreementFormProps {
   forms: AgreementFormType[];
@@ -28,11 +29,12 @@ const AgreementForm = ({
   isAccepted = false,
   history = [],
 }: AgreementFormProps) => {
-  const [selectedOid, setSelectedOid] = useState<number | null>(
+  const [selectedOid, setSelectedOid] = useState<number | null>(() =>
     getDefaultOid(forms),
   );
 
   const form = forms?.[0];
+  const total = forms.length;
   const isFormAccepted = isAccepted || form?.answered;
 
   if (!form || !form.questions) return null;
@@ -95,17 +97,17 @@ const AgreementForm = ({
         );
       })}
 
-      {acceptButtonText && (
+      {acceptButtonText ? (
         <AgreementButton
           text={isFormAccepted ? "Hilo aceptado" : acceptButtonText}
           onClick={onAccept}
           disabled={isFormAccepted}
         />
-      )}
+      ) : null}
 
       {isFormAccepted && history.length > 0 && (
         <div className="agreement-form__last-update">
-          <HistoryTable history={history} showOnlyLast={true} />
+          <HistoryRow row={history[0]} index={0} total={total} />
         </div>
       )}
     </div>

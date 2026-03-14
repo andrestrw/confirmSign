@@ -3,7 +3,7 @@
   align-items: center;
   padding: 4px 8px;
   border-bottom: 1px solid #eee;
-  gap: 12px;
+  gap: 25px;
   font-size: 12px;
   font-family: sans-serif;
   color: #4e6083;
@@ -16,7 +16,6 @@
   &__pagination {
     min-width: 50px;
     font-weight: 600;
-    color: #4e6083;
     white-space: nowrap;
   }
 
@@ -33,6 +32,7 @@
   &__ip {
     flex: 1;
     white-space: nowrap;
+    background-color: red;
   }
 
   &__os {
@@ -41,11 +41,10 @@
   }
 
   &__nav {
-    min-width: 40px;
     white-space: nowrap;
   }
 
-  &--active {
+  &:hover {
     color: #4caf50;
     cursor: pointer;
 

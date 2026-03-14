@@ -1,67 +1,52 @@
 import type { HistoryEntry } from "../../api/types";
 import "./HistoryRow.scss";
 
-interface HistoryRowProps {
-  entry: HistoryEntry;
+export interface HistoryRowProps {
+  row: HistoryEntry;
   index: number;
   total: number;
-  isMostRecent?: boolean;
   onClick?: () => void;
 }
 
-const formatDate = (dateStr: string): string => {
-  const [datePart, timePart] = dateStr.split(" ");
+const formatDate = (dateString: string): string => {
+  const [datePart, timePart] = dateString.split(" ");
   const [year, month, day] = datePart.split("-");
   return `${day}/${month}/${year} a las ${timePart}`;
 };
 
-const formatGmt = (gmtStr: string): string => {
-  const timePart = gmtStr.split(" ")[1];
+const formatGmt = (gmtString: string): string => {
+  const timePart = gmtString.split(" ")[1];
   return `(${timePart} GMT)`;
 };
 
-const getStatusLabel = (entry: HistoryEntry): string => {
-  if (!entry.description) {
-    return entry.status;
-  }
-  return `Ticket de ${entry.description}`;
+const getRowStatus = (row: HistoryEntry): string => {
+  if (!row.description && !row.status) return `Ticket undefined`;
+  if (row.description) return `Ticket de ${row.description}`;
+
+  return `Ticket de ${row.status}`;
 };
 
-const HistoryRow = ({
-  entry,
-  index,
-  total,
-  isMostRecent = false,
-  onClick,
-}: HistoryRowProps) => {
+const HistoryRow = ({ row, index, total, onClick }: HistoryRowProps) => {
   return (
-    <div
-      className={`history-row ${isMostRecent ? "history-row--active" : ""}`}
-      onClick={onClick}
-    >
+    <div className={`history-row `} onClick={onClick}>
       <span className="history-row__pagination">
-        {isMostRecent && (
-          <>
-            <span className="history-row__arrows">↕</span>{" "}
-          </>
-        )}
-        {index + 1}/{total}
+        <span className="history-row__arrows">↕</span> {index + 1}/{total}
       </span>
 
       <span className="history-row__description">
-        <strong>{getStatusLabel(entry)}</strong> el{" "}
-        <strong>{formatDate(entry.date)}</strong> - {formatGmt(entry.gmt)}
+        <strong>{getRowStatus(row)}</strong> el{" "}
+        <strong>{formatDate(row.date)}</strong> - {formatGmt(row.gmt)}
       </span>
 
       <span className="history-row__ip">
-        IP: <strong>{entry.ip}</strong>
+        IP: <strong>{row.ip}</strong>
       </span>
 
       <span className="history-row__os">
-        SO: <strong>{entry.OS}</strong>
+        SO: <strong>{row.OS}</strong>
       </span>
 
-      <span className="history-row__nav">Nav: {entry.browser}</span>
+      <span className="history-row__nav">Nav: {row.browser}</span>
     </div>
   );
 };

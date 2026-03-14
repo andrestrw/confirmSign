@@ -5,50 +5,35 @@ import "./HistoryTable.scss";
 
 interface HistoryTableProps {
   history: HistoryEntry[];
-  showOnlyLast?: boolean;
+  showDefaultRow: boolean;
 }
 
-const getMostRecentEntry = (history: HistoryEntry[]): HistoryEntry => {
-  return history.reduce((latest, entry) =>
-    entry.gmt > latest.gmt ? entry : latest,
-  );
-};
-
-const HistoryTable = ({ history, showOnlyLast = false }: HistoryTableProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const HistoryTable = ({ history, showDefaultRow }: HistoryTableProps) => {
+  const [clickedRow, setclickedRow] = useState<boolean>(false);
   const total = history.length;
 
-  if (total === 0) return null;
-  const mostRecent = getMostRecentEntry(history);
-
-  const handleToggle = () => {
-    if (showOnlyLast) return;
-    setIsExpanded((prev) => !prev);
-  };
+  if (history.length === 0) return null;
 
   return (
-    <div
-      className={`history-table ${showOnlyLast ? "history-table--compact" : ""}`}
-    >
-      {history.map((entry, index) => {
-        const isMostRecent = entry.sid === mostRecent.sid;
-        const isVisible = showOnlyLast
-          ? isMostRecent
-          : isExpanded || isMostRecent;
-
-        if (!isVisible) return null;
-
-        return (
+    <div className={`history-table }`}>
+      {showDefaultRow && clickedRow ? (
+        history.map((element, index) => (
           <HistoryRow
-            key={entry.sid}
-            entry={entry}
+            key={`${element.sid}-${index}`}
+            row={element}
             index={index}
             total={total}
-            isMostRecent={isMostRecent}
-            onClick={isMostRecent ? handleToggle : undefined}
+            onClick={() => setclickedRow(!clickedRow)}
           />
-        );
-      })}
+        ))
+      ) : (
+        <HistoryRow
+          row={history[0]}
+          index={0}
+          total={total}
+          onClick={() => setclickedRow(!clickedRow)}
+        />
+      )}
     </div>
   );
 };

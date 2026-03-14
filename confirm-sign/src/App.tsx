@@ -41,7 +41,7 @@ function App() {
         recipientAddress={data.recipient.address}
       />
 
-      <HistoryTable history={data.history} />
+      <HistoryTable showDefaultRow={true} history={data.history} />
 
       <ContentPanel content={data.content}>
         {data.agreement && (
