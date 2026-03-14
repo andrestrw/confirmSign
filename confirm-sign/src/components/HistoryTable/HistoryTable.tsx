@@ -8,10 +8,7 @@ interface HistoryTableProps {
   showDefaultRow: boolean;
 }
 
-const HistoryTable = ({
-  history,
-  showDefaultRow = true,
-}: HistoryTableProps) => {
+const HistoryTable = ({ history, showDefaultRow }: HistoryTableProps) => {
   const [clickedRow, setclickedRow] = useState<boolean>(false);
   const total = history.length;
 
