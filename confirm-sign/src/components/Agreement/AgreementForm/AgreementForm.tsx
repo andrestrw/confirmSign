@@ -2,11 +2,11 @@ import { useState } from "react";
 import type {
   AgreementForm as AgreementFormType,
   HistoryEntry,
-} from "../../api/types";
-import AgreementButton from "../AgreementButton/AgreementButton";
+} from "@/api/types";
+import AgreementButton from "@/components/Agreement/AgreementButton/AgreementButton";
 
 import "./AgreementForm.scss";
-import HistoryRow from "../HistoryRow/HistoryRow";
+import HistoryRow from "@/components/HistoryRow/HistoryRow";
 
 interface AgreementFormProps {
   forms: AgreementFormType[];
