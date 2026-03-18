@@ -11,7 +11,7 @@ import {
   AgreementForm,
 } from "@/components/";
 
-function Thread() {
+export default function Thread() {
   const { cskey, cfstoken } = useParams({ strict: false });
   const { data, loading, error, refetch } = useThread(
     cskey as string,
@@ -60,5 +60,3 @@ function Thread() {
     </div>
   );
 }
-
-export default Thread;

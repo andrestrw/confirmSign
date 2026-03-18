@@ -6,11 +6,11 @@ interface AgreementButtonProps {
   disabled?: boolean;
 }
 
-const AgreementButton = ({
+export default function AgreementButton({
   text,
   onClick,
   disabled = false,
-}: AgreementButtonProps) => {
+}: AgreementButtonProps) {
   return (
     <button
       className="agreement-button"
@@ -21,6 +21,4 @@ const AgreementButton = ({
       {text}
     </button>
   );
-};
-
-export default AgreementButton;
+}

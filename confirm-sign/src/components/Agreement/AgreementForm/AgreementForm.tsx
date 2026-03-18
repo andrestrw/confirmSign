@@ -22,13 +22,13 @@ const getDefaultOid = (forms: AgreementFormType[]): number | null => {
   return options?.find((opt) => opt.default)?.oid ?? null;
 };
 
-const AgreementForm = ({
+export default function AgreementForm({
   forms,
   acceptButtonText,
   onAccept,
   isAccepted = false,
   history = [],
-}: AgreementFormProps) => {
+}: AgreementFormProps) {
   const [selectedOid, setSelectedOid] = useState<number | null>(() =>
     getDefaultOid(forms),
   );
@@ -112,6 +112,4 @@ const AgreementForm = ({
       )}
     </div>
   );
-};
-
-export default AgreementForm;
+}

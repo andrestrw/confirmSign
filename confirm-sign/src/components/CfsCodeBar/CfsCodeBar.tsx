@@ -4,11 +4,11 @@ interface CfsCodeBarProps {
   cfscode: string;
 }
 
-const CfsCodeBar = ({ cfscode }: CfsCodeBarProps) => (
-  <div className="cfs-code-bar">
-    <span className="cfs-code-bar__label">CFSCode:</span>
-    <span className="cfs-code-bar__value">{cfscode}</span>
-  </div>
-);
-
-export default CfsCodeBar;
+export default function CfsCodeBar({ cfscode }: CfsCodeBarProps) {
+  return (
+    <div className="cfs-code-bar">
+      <span className="cfs-code-bar__label">CFSCode:</span>
+      <span className="cfs-code-bar__value">{cfscode}</span>
+    </div>
+  );
+}
