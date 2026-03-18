@@ -4,8 +4,8 @@ import {
   createRouter,
   Outlet,
 } from "@tanstack/react-router";
-import App from "./App";
-import NotFound from "./components/NotFound/NotFound";
+import ThreadPage from "@/pages/ValidateThread/Thread";
+import NotFound from "@/pages/NotFound/NotFound";
 
 const rootRoute = createRootRoute({
   component: () => <Outlet />,
@@ -20,7 +20,7 @@ const indexRoute = createRoute({
 export const threadRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/$cskey/$cfstoken",
-  component: App,
+  component: ThreadPage,
 });
 
 const routeTree = rootRoute.addChildren([indexRoute, threadRoute]);

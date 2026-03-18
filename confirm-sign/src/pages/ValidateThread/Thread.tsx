@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useParams } from "@tanstack/react-router";
-import { useThread } from "./hooks/useThread";
-import { acceptThread } from "./api/threadService";
-import CfsCodeBar from "./components/CfsCodeBar/CfsCodeBar";
-import InfoBar from "./components/InfoBar/InfoBar";
-import HistoryTable from "./components/HistoryTable/HistoryTable";
-import ContentPanel from "./components/ContentPanel/ContentPanel";
-import AgreementForm from "./components/AgreementForm/AgreementForm";
+import { useThread } from "@/hooks/useThread";
+import { acceptThread } from "@/api/threadService";
 
-function App() {
+import {
+  CfsCodeBar,
+  InfoBar,
+  HistoryTable,
+  ContentPanel,
+  AgreementForm,
+} from "@/components/";
+
+function Thread() {
   const { cskey, cfstoken } = useParams({ strict: false });
   const { data, loading, error, refetch } = useThread(
     cskey as string,
@@ -58,4 +61,4 @@ function App() {
   );
 }
 
-export default App;
+export default Thread;
