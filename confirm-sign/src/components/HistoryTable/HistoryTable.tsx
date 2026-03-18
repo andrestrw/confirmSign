@@ -8,7 +8,10 @@ interface HistoryTableProps {
   showDefaultRow: boolean;
 }
 
-const HistoryTable = ({ history, showDefaultRow }: HistoryTableProps) => {
+export default function HistoryTable({
+  history,
+  showDefaultRow,
+}: HistoryTableProps) {
   const [clickedRow, setclickedRow] = useState<boolean>(false);
   const total = history.length;
 
@@ -36,6 +39,4 @@ const HistoryTable = ({ history, showDefaultRow }: HistoryTableProps) => {
       )}
     </div>
   );
-};
-
-export default HistoryTable;
+}

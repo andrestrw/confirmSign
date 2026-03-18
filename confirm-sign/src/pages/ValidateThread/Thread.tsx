@@ -11,7 +11,7 @@ import {
   AgreementForm,
 } from "@/components/";
 
-function Thread() {
+export default function Thread() {
   const { cskey, cfstoken } = useParams({ strict: false });
   const { data, loading, error, refetch } = useThread(
     cskey as string,
@@ -27,8 +27,11 @@ function Thread() {
         setIsAccepted(true);
         await refetch();
       }
-    } catch (err: any) {
-      console.error("Error accepting thread:", err.message);
+    } catch (err: unknown) {
+      console.error(
+        "Error accepting thread:",
+        err instanceof Error ? err.message : String(err),
+      );
     }
   };
 
@@ -60,5 +63,3 @@ function Thread() {
     </div>
   );
 }
-
-export default Thread;

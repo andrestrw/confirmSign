@@ -6,13 +6,13 @@ interface ContentPanelProps {
   children?: ReactNode;
 }
 
-const ContentPanel = ({ content, children }: ContentPanelProps) => (
-  <div className="content-panel">
-    <div className="content-panel__body">
-      <div dangerouslySetInnerHTML={{ __html: content }} />
-      {children}
+export default function ContentPanel({ content, children }: ContentPanelProps) {
+  return (
+    <div className="content-panel">
+      <div className="content-panel__body">
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        {children}
+      </div>
     </div>
-  </div>
-);
-
-export default ContentPanel;
+  );
+}

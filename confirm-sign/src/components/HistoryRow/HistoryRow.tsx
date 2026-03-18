@@ -26,7 +26,12 @@ const getRowStatus = (row: HistoryEntry): string => {
   return `Ticket de ${row.status}`;
 };
 
-const HistoryRow = ({ row, index, total, onClick }: HistoryRowProps) => {
+export default function HistoryRow({
+  row,
+  index,
+  total,
+  onClick,
+}: HistoryRowProps) {
   return (
     <div className={`history-row `} onClick={onClick}>
       <span className="history-row__pagination">
@@ -49,6 +54,4 @@ const HistoryRow = ({ row, index, total, onClick }: HistoryRowProps) => {
       <span className="history-row__nav">Nav: {row.browser}</span>
     </div>
   );
-};
-
-export default HistoryRow;
+}
