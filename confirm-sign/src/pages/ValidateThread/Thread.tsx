@@ -27,8 +27,11 @@ export default function Thread() {
         setIsAccepted(true);
         await refetch();
       }
-    } catch (err: any) {
-      console.error("Error accepting thread:", err.message);
+    } catch (err: unknown) {
+      console.error(
+        "Error accepting thread:",
+        err instanceof Error ? err.message : String(err),
+      );
     }
   };
 
